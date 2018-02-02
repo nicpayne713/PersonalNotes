@@ -166,3 +166,41 @@ ax.set_title('Feature Importance Plot')
 plt.savefig('pltName.jpg')
 plt.show()
 ```
+
+
+# SQL Server Connection
+
+```py
+from subprocess import call
+
+# BCP Tableau Inputs into SQL Server
+server = 'ServerURL'
+user = 'username'
+password = 'password'
+database = 'database'
+
+table_name = "table"
+call('bcp {t} in {f} -c -S {s} -U {u} -P {p} -d {db} -t "{sep}" -r "{nl}" -e {e} -F 2'
+         .format(t=table_name, f='{T}'.format(T=table), s=server, u=user, p=password,
+                 db=database, sep='\t', nl='\n', e='Docs/bcp_fails/fails_{Y}.txt'.format(Y=table.split('.')[0])))
+
+```
+
+# Database Statements
+
+```py
+import sqlalchemy
+
+engine = sqlalchemy.create_engine(
+    'mssql+pyodbc://username:password@ServerURL/database?driver=SQL Server')
+
+connection = engine.raw_connection()
+cursor = connection.cursor()
+
+sql = '''if (object_id('%s') is not null)
+            ALTER TABLE %s
+            ALTER COLUMN %s varchar(500)''' % (table, table, col)
+            cursor.execute(sql)
+cursor.commit()
+connection.close()
+```
