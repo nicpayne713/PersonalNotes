@@ -1,4 +1,5 @@
 ## Oracle Virtual Machine VirtualBox
+* Close all applications before running VMWare
 * Ubuntu 16.04 iso
 * MB ~ 8gb
 * Hard Drive space ~ 25 gb
